@@ -7,6 +7,8 @@ import SignUpPage from "./pages/SignUpPage";
 import Dashboard from "./pages/Dashboard";
 import Profile from "./pages/Profile";
 import BookRide from "./pages/BookRide";
+import DriverDashboard from "./pages/DriverDashboard";
+import RideStatus from "./pages/RideStatus";
 
 export default function App() {
   return (
@@ -20,6 +22,8 @@ export default function App() {
           <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
           <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
           <Route path="/book" element={<ProtectedRoute><BookRide /></ProtectedRoute>} />
+          <Route path="/driver" element={<ProtectedRoute><DriverDashboard /></ProtectedRoute>} />
+          <Route path="/rides/:id" element={<ProtectedRoute><RideStatus /></ProtectedRoute>} />
         </Routes>
       </main>
     </>

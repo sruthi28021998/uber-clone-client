@@ -70,11 +70,11 @@ export default function BookRide() {
     setBooking(true);
     setError("");
     try {
-      await api("/api/rides", {
+        const ride = await api("/api/rides", {
         method: "POST",
         body: JSON.stringify({ pickup, dropoff, ride_type: rideType }),
       });
-      navigate("/dashboard");
+      navigate(`/rides/${ride.id}`);
     } catch (e) {
       setError(e.message);
       setBooking(false);
