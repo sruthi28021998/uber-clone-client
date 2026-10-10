@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useApi } from "../lib/useApi";
 import { useSocket } from "../lib/SocketContext";
+import EarningsCard from "../components/EarningsCard";
 
 export default function DriverDashboard() {
   const api = useApi();
@@ -107,6 +108,8 @@ export default function DriverDashboard() {
       </div>
 
       {error && <p className="text-red-600">{error}</p>}
+
+      <EarningsCard />
 
       {active && (
         <section className="space-y-2 rounded-lg border-2 border-black bg-white p-4">

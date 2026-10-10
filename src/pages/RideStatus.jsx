@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useApi } from "../lib/useApi";
 import { useSocket } from "../lib/SocketContext";
+import PayForRide from "../components/PayForRide";
 
 const STEPS = [
   { key: "requested", label: "Looking for a driver" },
@@ -74,7 +75,14 @@ export default function RideStatus() {
         </div>
       )}
 
-      <p className="font-semibold">Fare: ${ride.fare}</p>
+            <p className="font-semibold">Fare: ${ride.fare}</p>
+
+      {ride.status === "completed" &&
+        (ride.payments?.some((p) => p.status === "succeeded") ? (
+          <p className="rounded bg-green-100 p-3 text-green-800">Paid ✅</p>
+        ) : (
+          <PayForRide ride={ride} onPaid={load} />
+        ))}
 
       {(ride.status === "requested" || ride.status === "accepted") && (
         <button onClick={cancel} className="rounded border border-red-600 px-4 py-2 text-red-600">
