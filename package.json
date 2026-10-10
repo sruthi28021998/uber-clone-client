@@ -12,6 +12,8 @@
   "dependencies": {
     "@clerk/clerk-react": "^5.61.10",
     "@react-google-maps/api": "^2.20.8",
+    "@stripe/react-stripe-js": "^7.0.0",
+    "@stripe/stripe-js": "^10.0.0",
     "@tailwindcss/vite": "^4.3.3",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
