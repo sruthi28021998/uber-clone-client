@@ -12,6 +12,7 @@ export default function Navbar() {
         </SignedOut>
         <SignedIn>
           <Link to="/dashboard">Dashboard</Link>
+          <Link to="/rides">History</Link>
           <Link to="/book">Book a ride</Link>
           <Link to="/driver">Drive</Link>
           <Link to="/profile">Profile</Link>

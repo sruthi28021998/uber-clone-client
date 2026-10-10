@@ -9,6 +9,7 @@ import Profile from "./pages/Profile";
 import BookRide from "./pages/BookRide";
 import DriverDashboard from "./pages/DriverDashboard";
 import RideStatus from "./pages/RideStatus";
+import RideHistory from "./pages/RideHistory";
 
 export default function App() {
   return (
@@ -23,6 +24,7 @@ export default function App() {
           <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
           <Route path="/book" element={<ProtectedRoute><BookRide /></ProtectedRoute>} />
           <Route path="/driver" element={<ProtectedRoute><DriverDashboard /></ProtectedRoute>} />
+          <Route path="/rides" element={<ProtectedRoute><RideHistory /></ProtectedRoute>} />
           <Route path="/rides/:id" element={<ProtectedRoute><RideStatus /></ProtectedRoute>} />
         </Routes>
       </main>
