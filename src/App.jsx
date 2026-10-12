@@ -1,5 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Home from "./pages/Home";
 import SignInPage from "./pages/SignInPage";
@@ -11,12 +12,13 @@ import DriverDashboard from "./pages/DriverDashboard";
 import RideStatus from "./pages/RideStatus";
 import RideHistory from "./pages/RideHistory";
 import DriverProfile from "./pages/DriverProfile";
+import NotFound from "./pages/NotFound";
 
 export default function App() {
   return (
-    <>
+    <div className="flex min-h-screen flex-col">
       <Navbar />
-      <main className="mx-auto max-w-5xl p-4">
+      <main className="mx-auto w-full max-w-5xl flex-1 p-4">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/sign-in/*" element={<SignInPage />} />
@@ -27,9 +29,11 @@ export default function App() {
           <Route path="/driver" element={<ProtectedRoute><DriverDashboard /></ProtectedRoute>} />
           <Route path="/rides" element={<ProtectedRoute><RideHistory /></ProtectedRoute>} />
           <Route path="/rides/:id" element={<ProtectedRoute><RideStatus /></ProtectedRoute>} />
-          <Route path="/drivers/:id" element={<ProtectedRoute><DriverProfile /></ProtectedRoute>} />  
+          <Route path="/drivers/:id" element={<ProtectedRoute><DriverProfile /></ProtectedRoute>} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
-    </>
+      <Footer />
+    </div>
   );
 }
