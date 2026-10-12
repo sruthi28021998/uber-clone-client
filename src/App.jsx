@@ -10,6 +10,7 @@ import BookRide from "./pages/BookRide";
 import DriverDashboard from "./pages/DriverDashboard";
 import RideStatus from "./pages/RideStatus";
 import RideHistory from "./pages/RideHistory";
+import DriverProfile from "./pages/DriverProfile";
 
 export default function App() {
   return (
@@ -26,6 +27,7 @@ export default function App() {
           <Route path="/driver" element={<ProtectedRoute><DriverDashboard /></ProtectedRoute>} />
           <Route path="/rides" element={<ProtectedRoute><RideHistory /></ProtectedRoute>} />
           <Route path="/rides/:id" element={<ProtectedRoute><RideStatus /></ProtectedRoute>} />
+          <Route path="/drivers/:id" element={<ProtectedRoute><DriverProfile /></ProtectedRoute>} />  
         </Routes>
       </main>
     </>

@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import { useApi } from "../lib/useApi";
 import { useSocket } from "../lib/SocketContext";
 import PayForRide from "../components/PayForRide";
+import RideReview from "../components/RideReview";
 
 const STEPS = [
   { key: "requested", label: "Looking for a driver" },
@@ -70,7 +71,9 @@ export default function RideStatus() {
       {ride.driver && (
         <div className="rounded-lg bg-white p-4 shadow">
           <p className="text-sm text-gray-500">Your driver</p>
-          <p className="font-medium">{ride.driver.name ?? "Driver"}</p>
+          <Link to={`/drivers/${ride.driver_id}`} className="font-medium underline">
+            {ride.driver.name ?? "Driver"}
+          </Link>
           {ride.driver.phone && <p className="text-sm">{ride.driver.phone}</p>}
         </div>
       )}
@@ -83,7 +86,7 @@ export default function RideStatus() {
         ) : (
           <PayForRide ride={ride} onPaid={load} />
         ))}
-
+          <RideReview ride={ride} onDone={load} />
       {(ride.status === "requested" || ride.status === "accepted") && (
         <button onClick={cancel} className="rounded border border-red-600 px-4 py-2 text-red-600">
           Cancel ride
