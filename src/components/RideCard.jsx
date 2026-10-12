@@ -8,16 +8,18 @@ const colors = {
 
 export default function RideCard({ ride }) {
   return (
-    <div className="flex items-center justify-between rounded-lg bg-white p-4 shadow">
-      <div>
-        <p className="font-medium">{ride.pickup_address} → {ride.dropoff_address}</p>
+    <div className="flex flex-col gap-2 rounded-lg bg-white p-4 shadow sm:flex-row sm:items-center sm:justify-between">
+      <div className="min-w-0">
+        <p className="wrap-break-word font-medium">
+          {ride.pickup_address} → {ride.dropoff_address}
+        </p>
         <p className="text-sm text-gray-500">{new Date(ride.created_at).toLocaleString()}</p>
       </div>
-      <div className="text-right">
+      <div className="flex items-center justify-between gap-3 sm:block sm:text-right">
         <span className={`rounded px-2 py-1 text-xs ${colors[ride.status]}`}>
           {ride.status.replace("_", " ")}
         </span>
-        {ride.fare != null && <p className="mt-1 font-semibold">${ride.fare}</p>}
+        {ride.fare != null && <p className="font-semibold sm:mt-1">{ride.fare}</p>}
       </div>
     </div>
   );

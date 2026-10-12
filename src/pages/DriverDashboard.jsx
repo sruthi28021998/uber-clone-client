@@ -118,7 +118,7 @@ export default function DriverDashboard() {
           <p className="text-sm text-gray-600">
             Rider: {active.rider?.name ?? "Rider"} {active.rider?.phone && `· ${active.rider.phone}`}
           </p>
-          <p className="font-semibold">${active.fare}</p>
+          <p className="font-semibold">{active.fare}</p>
           {active.status === "accepted" ? (
             <button
               onClick={() => act(`/api/drivers/rides/${active.id}/status`, { status: "in_progress" })}
@@ -146,11 +146,14 @@ export default function DriverDashboard() {
             <p className="text-gray-500">No requests within 10 km right now.</p>
           ) : (
             available.map((ride) => (
-              <div key={ride.id} className="flex items-center justify-between rounded-lg bg-white p-4 shadow">
+              <div
+                key={ride.id}
+                className="flex flex-col gap-3 rounded-lg bg-white p-4 shadow sm:flex-row sm:items-center sm:justify-between"
+              >
                 <div>
                   <p className="font-medium">{ride.pickup_address} → {ride.dropoff_address}</p>
                   <p className="text-sm text-gray-500">
-                    {ride.distanceToPickupKm} km away · {ride.ride_type} · ${ride.fare}
+                    {ride.distanceToPickupKm} km away · {ride.ride_type} · {ride.fare}
                   </p>
                 </div>
                 <button
