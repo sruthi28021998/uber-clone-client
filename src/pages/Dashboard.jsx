@@ -35,7 +35,7 @@ export default function Dashboard() {
       <div className="grid gap-4 sm:grid-cols-3">
         <StatCard label="Total rides" value={rides.length} />
         <StatCard label="Completed" value={completed.length} />
-        <StatCard label="Total" value={`$${spent.toFixed(2)}`} />
+        <StatCard label="Total spent" value={`₹${spent.toFixed(2)}`} />
       </div>
 
       <div className="flex gap-3">
