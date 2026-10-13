@@ -39,10 +39,21 @@ export default function BookRide() {
   const [booking, setBooking] = useState(false);
   const [error, setError] = useState("");
 
-  useEffect(() => {
+  // Changing a place clears the old route and fares right away
+  const changePickup = (place) => {
+    setPickup(place);
     setDirections(null);
     setEstimate(null);
+  };
+  const changeDropoff = (place) => {
+    setDropoff(place);
+    setDirections(null);
+    setEstimate(null);
+  };
+
+  useEffect(() => {
     if (!isLoaded || !pickup || !dropoff) return;
+    let cancelled = false;
 
     new window.google.maps.DirectionsService().route(
       {
@@ -51,7 +62,7 @@ export default function BookRide() {
         travelMode: window.google.maps.TravelMode.DRIVING,
       },
       (result, status) => {
-        if (status === "OK") setDirections(result);
+        if (!cancelled && status === "OK") setDirections(result);
       }
     );
 
@@ -62,15 +73,23 @@ export default function BookRide() {
       dlng: dropoff.lng,
     });
     api(`/api/rides/estimate?${q}`)
-      .then(setEstimate)
-      .catch((e) => setError(e.message));
+      .then((data) => {
+        if (!cancelled) setEstimate(data);
+      })
+      .catch((e) => {
+        if (!cancelled) setError(e.message);
+      });
+
+    return () => {
+      cancelled = true;
+    };
   }, [isLoaded, pickup, dropoff, api]);
 
   const book = async () => {
     setBooking(true);
     setError("");
     try {
-        const ride = await api("/api/rides", {
+      const ride = await api("/api/rides", {
         method: "POST",
         body: JSON.stringify({ pickup, dropoff, ride_type: rideType }),
       });
@@ -93,15 +112,15 @@ export default function BookRide() {
       <div className="grid gap-3 sm:grid-cols-2">
         <Autocomplete
           onLoad={(ac) => (pickupAc.current = ac)}
-          onPlaceChanged={() => setPickup(toPlace(pickupAc.current.getPlace()))}
+          onPlaceChanged={() => changePickup(toPlace(pickupAc.current.getPlace()))}
         >
-          <input className={input} placeholder="Pickup location" onChange={() => setPickup(null)} />
+          <input className={input} placeholder="Pickup location" onChange={() => changePickup(null)} />
         </Autocomplete>
         <Autocomplete
           onLoad={(ac) => (dropoffAc.current = ac)}
-          onPlaceChanged={() => setDropoff(toPlace(dropoffAc.current.getPlace()))}
+          onPlaceChanged={() => changeDropoff(toPlace(dropoffAc.current.getPlace()))}
         >
-          <input className={input} placeholder="Drop-off location" onChange={() => setDropoff(null)} />
+          <input className={input} placeholder="Drop-off location" onChange={() => changeDropoff(null)} />
         </Autocomplete>
       </div>
 
@@ -128,7 +147,7 @@ export default function BookRide() {
                 <span className="font-medium">{t.label}</span>
                 <p className="ml-5 text-sm text-gray-500">{t.desc}</p>
               </div>
-              <span className="font-semibold">${estimate.fares[t.id].toFixed(2)}</span>
+              <span className="font-semibold">₹{estimate.fares[t.id].toFixed(2)}</span>
             </label>
           ))}
         </section>

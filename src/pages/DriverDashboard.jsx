@@ -12,21 +12,22 @@ export default function DriverDashboard() {
   const [active, setActive] = useState(null);
   const [error, setError] = useState("");
 
-  const load = useCallback(async () => {
-    try {
-      const me = await api("/api/users/me");
-      setUser(me);
-      if (me.role !== "driver") return;
-      const [act, avail] = await Promise.all([
-        api("/api/drivers/rides/active"),
-        me.is_online ? api("/api/drivers/rides/available") : [],
-      ]);
-      setActive(act);
-      setAvailable(avail);
-    } catch (e) {
-      setError(e.message);
-    }
-  }, [api]);
+    const load = useCallback(
+    () =>
+      api("/api/users/me")
+        .then(async (me) => {
+          setUser(me);
+          if (me.role !== "driver") return;
+          const [act, avail] = await Promise.all([
+            api("/api/drivers/rides/active"),
+            me.is_online ? api("/api/drivers/rides/available") : [],
+          ]);
+          setActive(act);
+          setAvailable(avail);
+        })
+        .catch((e) => setError(e.message)),
+    [api]
+  );
 
   // Refresh every 10 seconds (also works without sockets)
   useEffect(() => {
