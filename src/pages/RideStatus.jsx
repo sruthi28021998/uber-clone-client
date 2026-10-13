@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useSearchParams } from "react-router-dom";
 import { useApi } from "../lib/useApi";
 import { useSocket } from "../lib/SocketContext";
 import PayForRide from "../components/PayForRide";
@@ -14,6 +14,7 @@ const STEPS = [
 
 export default function RideStatus() {
   const { id } = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const api = useApi();
   const socket = useSocket();
   const [ride, setRide] = useState(null);
@@ -36,6 +37,19 @@ export default function RideStatus() {
     socket.on("ride:updated", onUpdate);
     return () => socket.off("ride:updated", onUpdate);
   }, [socket, id, load]);
+
+  // When Stripe sends the rider back, confirm the payment with the server
+  useEffect(() => {
+    const sessionId = searchParams.get("session_id");
+    if (!sessionId) return;
+    api("/api/payments/confirm", {
+      method: "POST",
+      body: JSON.stringify({ session_id: sessionId }),
+    })
+      .then(() => load())
+      .catch((e) => setError(e.message))
+      .finally(() => setSearchParams({}, { replace: true }));
+  }, [searchParams, api, load, setSearchParams]);
 
   const cancel = async () => {
     try {
@@ -78,15 +92,17 @@ export default function RideStatus() {
         </div>
       )}
 
-            <p className="font-semibold">Fare: ${ride.fare}</p>
+      <p className="font-semibold">Fare: ₹{Number(ride.fare).toFixed(2)}</p>
 
       {ride.status === "completed" &&
         (ride.payments?.some((p) => p.status === "succeeded") ? (
           <p className="rounded bg-green-100 p-3 text-green-800">Paid ✅</p>
         ) : (
-          <PayForRide ride={ride} onPaid={load} />
+          <PayForRide ride={ride} />
         ))}
-          <RideReview ride={ride} onDone={load} />
+
+      <RideReview ride={ride} onDone={load} />
+
       {(ride.status === "requested" || ride.status === "accepted") && (
         <button onClick={cancel} className="rounded border border-red-600 px-4 py-2 text-red-600">
           Cancel ride
