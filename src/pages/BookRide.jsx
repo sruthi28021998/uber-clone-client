@@ -1,10 +1,12 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Autocomplete, useJsApiLoader } from "@react-google-maps/api";
 import { useApi } from "../lib/useApi";
-import MapPicker from "../components/MapPicker";
+import GoogleLocationPicker from "../components/GoogleLocationPicker";
+import OsmLocationPicker from "../components/OsmLocationPicker";
 
-const LIBRARIES = ["places"];
+// VITE_MAP_PROVIDER=google uses Google Maps, anything else uses OpenStreetMap
+const LocationPicker =
+  import.meta.env.VITE_MAP_PROVIDER === "google" ? GoogleLocationPicker : OsmLocationPicker;
 
 const RIDE_TYPES = [
   { id: "standard", label: "Standard", desc: "Affordable everyday rides" },
@@ -12,59 +14,29 @@ const RIDE_TYPES = [
   { id: "xl", label: "XL", desc: "Extra space for up to 6" },
 ];
 
-const toPlace = (place) =>
-  place?.geometry
-    ? {
-        address: place.formatted_address || place.name,
-        lat: place.geometry.location.lat(),
-        lng: place.geometry.location.lng(),
-      }
-    : null;
-
 export default function BookRide() {
   const api = useApi();
   const navigate = useNavigate();
-  const { isLoaded, loadError } = useJsApiLoader({
-    googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
-    libraries: LIBRARIES,
-  });
 
-  const pickupAc = useRef(null);
-  const dropoffAc = useRef(null);
   const [pickup, setPickup] = useState(null);
   const [dropoff, setDropoff] = useState(null);
-  const [directions, setDirections] = useState(null);
   const [estimate, setEstimate] = useState(null);
   const [rideType, setRideType] = useState("standard");
   const [booking, setBooking] = useState(false);
   const [error, setError] = useState("");
 
-  // Changing a place clears the old route and fares right away
   const changePickup = (place) => {
     setPickup(place);
-    setDirections(null);
     setEstimate(null);
   };
   const changeDropoff = (place) => {
     setDropoff(place);
-    setDirections(null);
     setEstimate(null);
   };
 
   useEffect(() => {
-    if (!isLoaded || !pickup || !dropoff) return;
+    if (!pickup || !dropoff) return;
     let cancelled = false;
-
-    new window.google.maps.DirectionsService().route(
-      {
-        origin: { lat: pickup.lat, lng: pickup.lng },
-        destination: { lat: dropoff.lat, lng: dropoff.lng },
-        travelMode: window.google.maps.TravelMode.DRIVING,
-      },
-      (result, status) => {
-        if (!cancelled && status === "OK") setDirections(result);
-      }
-    );
 
     const q = new URLSearchParams({
       plat: pickup.lat,
@@ -83,7 +55,7 @@ export default function BookRide() {
     return () => {
       cancelled = true;
     };
-  }, [isLoaded, pickup, dropoff, api]);
+  }, [pickup, dropoff, api]);
 
   const book = async () => {
     setBooking(true);
@@ -100,31 +72,16 @@ export default function BookRide() {
     }
   };
 
-  if (loadError) return <p className="text-red-600">Failed to load Google Maps. Check your API key.</p>;
-  if (!isLoaded) return <p>Loading map...</p>;
-
-  const input = "w-full rounded border p-2";
-
   return (
     <div className="space-y-4">
       <h1 className="text-2xl font-bold">Book a ride</h1>
 
-      <div className="grid gap-3 sm:grid-cols-2">
-        <Autocomplete
-          onLoad={(ac) => (pickupAc.current = ac)}
-          onPlaceChanged={() => changePickup(toPlace(pickupAc.current.getPlace()))}
-        >
-          <input className={input} placeholder="Pickup location" onChange={() => changePickup(null)} />
-        </Autocomplete>
-        <Autocomplete
-          onLoad={(ac) => (dropoffAc.current = ac)}
-          onPlaceChanged={() => changeDropoff(toPlace(dropoffAc.current.getPlace()))}
-        >
-          <input className={input} placeholder="Drop-off location" onChange={() => changeDropoff(null)} />
-        </Autocomplete>
-      </div>
-
-      <MapPicker pickup={pickup} dropoff={dropoff} directions={directions} />
+      <LocationPicker
+        pickup={pickup}
+        dropoff={dropoff}
+        onPickup={changePickup}
+        onDropoff={changeDropoff}
+      />
 
       {estimate && (
         <section className="space-y-2">

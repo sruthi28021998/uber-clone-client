@@ -98,7 +98,7 @@ export default function RideStatus() {
         (ride.payments?.some((p) => p.status === "succeeded") ? (
           <p className="rounded bg-green-100 p-3 text-green-800">Paid ✅</p>
         ) : (
-          <PayForRide ride={ride} />
+            <PayForRide ride={ride} onPaid={load} />
         ))}
 
       <RideReview ride={ride} onDone={load} />
