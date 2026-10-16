@@ -1,19 +1,140 @@
-# React + Vite
+# RideNow: Client
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+[![Build](https://github.com/sruthi28021998/uber-clone-client/actions/workflows/build.yml/badge.svg)](https://github.com/sruthi28021998/uber-clone-client/actions)
 
-Currently, two official plugins are available:
+React frontend for a ride-hailing app (an Uber clone). Riders book rides, nearby drivers accept them, both follow the ride live, and the rider pays with Stripe, rates the driver and downloads a receipt.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+**Live app:** https://uber-clone-client-nine.vercel.app
+**Server repo:** [uber-clone-server](https://github.com/sruthi28021998/uber-clone-server)
 
-## React Compiler
+## Screenshots
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+### 1. Home page
+[<img src="docs/screenshots/01-home.png" alt="Home page" width="700">](docs/screenshots/01-home.png)
 
-Note: This will impact Vite dev & build performances.
-You can also try [the experimental native React Compiler support in plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md#rust-react-compiler) by using `compiler: true` in the plugin options instead of using the Babel plugin.
+[Open full image](docs/screenshots/01-home.png)
 
-## Expanding the ESLint configuration
+### 2. Sign in (Clerk)
+[<img src="docs/screenshots/02-sign-in.png" alt="Sign in page" width="700">](docs/screenshots/02-sign-in.png)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+[Open full image](docs/screenshots/02-sign-in.png)
+
+### 3. Profile and role selection
+[<img src="docs/screenshots/03-profile.png" alt="Profile page" width="700">](docs/screenshots/03-profile.png)
+
+[Open full image](docs/screenshots/03-profile.png)
+
+### 4. Booking: map and fare options
+[<img src="docs/screenshots/04-book-ride.png" alt="Booking page" width="700">](docs/screenshots/04-book-ride.png)
+
+[Open full image](docs/screenshots/04-book-ride.png)
+
+### 5. Driver dashboard
+[<img src="docs/screenshots/05-driver-dashboard.png" alt="Driver dashboard" width="700">](docs/screenshots/05-driver-dashboard.png)
+
+[Open full image](docs/screenshots/05-driver-dashboard.png)
+
+### 6. Live ride status
+[<img src="docs/screenshots/06-ride-status.png" alt="Ride status" width="700">](docs/screenshots/06-ride-status.png)
+
+[Open full image](docs/screenshots/06-ride-status.png)
+
+### 7. Payment with Stripe Checkout (test mode)
+[<img src="docs/screenshots/07-stripe-checkout.png" alt="Stripe Checkout" width="700">](docs/screenshots/07-stripe-checkout.png)
+
+[Open full image](docs/screenshots/07-stripe-checkout.png)
+
+### 8. Paid ride
+[<img src="docs/screenshots/08-paid.png" alt="Paid ride" width="700">](docs/screenshots/08-paid.png)
+
+[Open full image](docs/screenshots/08-paid.png)
+
+### 9. Rating and review
+[<img src="docs/screenshots/09-review.png" alt="Review form" width="700">](docs/screenshots/09-review.png)
+
+[Open full image](docs/screenshots/09-review.png)
+
+### 10. Ride history
+[<img src="docs/screenshots/10-history.png" alt="Ride history" width="700">](docs/screenshots/10-history.png)
+
+[Open full image](docs/screenshots/10-history.png)
+
+### 11. PDF receipt
+[<img src="docs/screenshots/11-receipt.png" alt="PDF receipt" width="700">](docs/screenshots/11-receipt.png)
+
+[Open full image](docs/screenshots/11-receipt.png)
+
+## Features
+- Sign up and login with Clerk, with rider and driver roles
+- Book a ride: place search, map with both points, and fares for Standard, Premium and XL
+- Driver dashboard: go online, see requests within 10 km, accept, start and complete rides
+- Live ride status and pop-up notifications (Socket.IO, with a 10-second refresh as backup)
+- Payments through Stripe Checkout (test mode), with driver earnings
+- Ratings, reviews and driver profiles
+- Ride history with PDF receipts
+- Responsive layout with a mobile menu, lazy-loaded pages and a 404 page
+
+## Tech stack
+React 19 (Vite), React Router, Tailwind CSS, Clerk, Socket.IO client, Leaflet and OpenStreetMap (Google Maps optional), Stripe Checkout, react-hot-toast
+
+## How it works
+1. The user signs in with Clerk, and the browser gets a session token.
+2. Every API call sends the token to the server, which verifies it.
+3. A rider books a ride, and the server saves it and notifies nearby drivers.
+4. A driver accepts, starts and completes the ride, and the rider sees each step live.
+5. The rider pays on Stripe's page. When Stripe sends them back, the server confirms the payment with Stripe.
+6. The rider reviews the driver and can download a receipt.
+
+## Getting started
+```bash
+git clone https://github.com/sruthi28021998/uber-clone-client.git
+cd uber-clone-client
+npm install
+cp .env 
+npm run dev
+```
+Start the [server](https://github.com/sruthi28021998/uber-clone-server) too. The app runs at http://localhost:5173.
+
+## Environment variables
+| Name | Purpose |
+| --- | --- |
+| `VITE_CLERK_PUBLISHABLE_KEY` | Clerk publishable key |
+| `VITE_API_URL` | Backend URL, for example `http://localhost:5000` |
+| `VITE_MAP_PROVIDER` | `osm` (free OpenStreetMap, default) or `google` |
+| `VITE_GOOGLE_MAPS_API_KEY` | Only needed when the map provider is `google` |
+
+The Stripe secret key lives only on the server. Nothing for Stripe is needed here.
+
+## Scripts
+| Command | What it does |
+| --- | --- |
+| `npm run dev` | Start the dev server |
+| `npm run build` | Production build |
+| `npm run lint` | Lint the code |
+
+## Project structure
+```
+src/
+├── components/   Navbar, Footer, RideCard, RatingStars, PayForRide, map components...
+├── lib/          useApi (authenticated requests), SocketContext (live updates)
+├── pages/        Home, Dashboard, BookRide, DriverDashboard, RideStatus, RideHistory...
+├── App.jsx       Routes (lazy-loaded)
+└── main.jsx      Clerk, router and socket providers
+```
+
+## Try it
+1. Create two accounts, and set the second one to **Driver** in Profile.
+2. Driver: open **Drive** and click **Offline** to go online.
+3. Rider: **Book a ride**, pick two places and confirm.
+4. Driver: accept, start and complete the ride.
+5. Rider: pay with the Stripe test card `4242 4242 4242 4242` (any future date and CVC).
+6. Rider: rate the driver, then open **History** to download the receipt.
+
+## Deployment
+Deployed on Vercel. Set the environment variables above in the project settings. `vercel.json` makes page refreshes work.
+
+## Notes
+- Payments run in Stripe's test mode, so no real money moves.
+- Clerk runs in development mode, so a development label shows on the sign-in page.
+
+Built by [@sruthi28021998](https://github.com/sruthi28021998)
