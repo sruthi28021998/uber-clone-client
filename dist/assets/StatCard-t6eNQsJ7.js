@@ -1,0 +1,1 @@
+import{r as e}from"./index-CSUvNuey.js";var t=e();function n({label:e,value:n}){return(0,t.jsxs)(`div`,{className:`rounded-lg bg-white p-4 shadow`,children:[(0,t.jsx)(`p`,{className:`text-sm text-gray-500`,children:e}),(0,t.jsx)(`p`,{className:`mt-1 text-2xl font-semibold`,children:n})]})}export{n as t};

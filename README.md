@@ -10,59 +10,37 @@ React frontend for a ride-hailing app (an Uber clone). Riders book rides, nearby
 ## Screenshots
 
 ### 1. Home page
-[<img src="docs/screenshots/01-home.png" alt="Home page" width="700">](docs/screenshots/01-home.png)
-
-[Open full image](docs/screenshots/01-home.png)
+[![Home page](docs/screenshots/01-home.png)](https://github.com/sruthi28021998/uber-clone-client/blob/main/docs/screenshots/01-home.png)
 
 ### 2. Sign in (Clerk)
-[<img src="docs/screenshots/02-sign-in.png" alt="Sign in page" width="700">](docs/screenshots/02-sign-in.png)
-
-[Open full image](docs/screenshots/02-sign-in.png)
+[![Sign in page](docs/screenshots/02-sign-in.png)](https://github.com/sruthi28021998/uber-clone-client/blob/main/docs/screenshots/02-sign-in.png)
 
 ### 3. Profile and role selection
-[<img src="docs/screenshots/03-profile.png" alt="Profile page" width="700">](docs/screenshots/03-profile.png)
-
-[Open full image](docs/screenshots/03-profile.png)
+[![Profile page](docs/screenshots/03-profile.png)](https://github.com/sruthi28021998/uber-clone-client/blob/main/docs/screenshots/03-profile.png)
 
 ### 4. Booking: map and fare options
-[<img src="docs/screenshots/04-book-ride.png" alt="Booking page" width="700">](docs/screenshots/04-book-ride.png)
-
-[Open full image](docs/screenshots/04-book-ride.png)
+[![Booking page](docs/screenshots/04-book-ride.png)](https://github.com/sruthi28021998/uber-clone-client/blob/main/docs/screenshots/04-book-ride.png)
 
 ### 5. Driver dashboard
-[<img src="docs/screenshots/05-driver-dashboard.png" alt="Driver dashboard" width="700">](docs/screenshots/05-driver-dashboard.png)
-
-[Open full image](docs/screenshots/05-driver-dashboard.png)
+[![Driver dashboard](docs/screenshots/05-driver-dashboard.png)](https://github.com/sruthi28021998/uber-clone-client/blob/main/docs/screenshots/05-driver-dashboard.png)
 
 ### 6. Live ride status
-[<img src="docs/screenshots/06-ride-status.png" alt="Ride status" width="700">](docs/screenshots/06-ride-status.png)
-
-[Open full image](docs/screenshots/06-ride-status.png)
+[![Ride status](docs/screenshots/06-ride-status.png)](https://github.com/sruthi28021998/uber-clone-client/blob/main/docs/screenshots/06-ride-status.png)
 
 ### 7. Payment with Stripe Checkout (test mode)
-[<img src="docs/screenshots/07-stripe-checkout.png" alt="Stripe Checkout" width="700">](docs/screenshots/07-stripe-checkout.png)
-
-[Open full image](docs/screenshots/07-stripe-checkout.png)
+[![Stripe Checkout](docs/screenshots/07-stripe-checkout.png)](https://github.com/sruthi28021998/uber-clone-client/blob/main/docs/screenshots/07-stripe-checkout.png)
 
 ### 8. Paid ride
-[<img src="docs/screenshots/08-paid.png" alt="Paid ride" width="700">](docs/screenshots/08-paid.png)
-
-[Open full image](docs/screenshots/08-paid.png)
+[![Paid ride](docs/screenshots/08-paid.png)](https://github.com/sruthi28021998/uber-clone-client/blob/main/docs/screenshots/08-paid.png)
 
 ### 9. Rating and review
-[<img src="docs/screenshots/09-review.png" alt="Review form" width="700">](docs/screenshots/09-review.png)
-
-[Open full image](docs/screenshots/09-review.png)
+[![Review form](docs/screenshots/09-review.png)](https://github.com/sruthi28021998/uber-clone-client/blob/main/docs/screenshots/09-review.png)
 
 ### 10. Ride history
-[<img src="docs/screenshots/10-history.png" alt="Ride history" width="700">](docs/screenshots/10-history.png)
-
-[Open full image](docs/screenshots/10-history.png)
+[![Ride history](docs/screenshots/10-history.png)](https://github.com/sruthi28021998/uber-clone-client/blob/main/docs/screenshots/10-history.png)
 
 ### 11. PDF receipt
-[<img src="docs/screenshots/11-receipt.png" alt="PDF receipt" width="700">](docs/screenshots/11-receipt.png)
-
-[Open full image](docs/screenshots/11-receipt.png)
+[![PDF receipt](docs/screenshots/11-receipt.png)](https://github.com/sruthi28021998/uber-clone-client/blob/main/docs/screenshots/11-receipt.png)
 
 ## Features
 - Sign up and login with Clerk, with rider and driver roles

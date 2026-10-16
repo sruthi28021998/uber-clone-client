@@ -1,0 +1,1 @@
+import{i as e,r as t}from"./index-CSUvNuey.js";var n=t();function r(){return(0,n.jsx)(`div`,{className:`flex justify-center py-12`,children:(0,n.jsx)(e,{routing:`path`,path:`/sign-in`,signUpUrl:`/sign-up`,fallbackRedirectUrl:`/dashboard`})})}export{r as default};
